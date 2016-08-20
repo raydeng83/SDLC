@@ -12,6 +12,7 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
+import java.net.UnknownHostException;
 
 /**
  * Created by lede on 8/19/16.
@@ -40,6 +41,9 @@ public class ConsumerListener implements MessageListener {
                 logger.info("Sending JSON to DB: " + json);
                 consumerAdapter.sendToMongo(json);
             } catch (JMSException e) {
+                logger.error("Message: " + json);
+                jmsTemplate.convertAndSend(json);
+            }catch (Exception e) {
                 logger.error("Message: " + json);
                 jmsTemplate.convertAndSend(json);
             }
